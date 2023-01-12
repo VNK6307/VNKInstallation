@@ -14,77 +14,69 @@ public class Main {
         gamesFolders.add("savegames");
         gamesFolders.add("temp");
         String gamesPath = "E:\\Java\\Netology\\Projects\\JavaCore\\1.3_Input-Output\\Games\\";
-        for (String title : gamesFolders) {
-            StringBuilder temp = createDir(title, gamesPath);
-            installationLog.append(temp);
-        }
+        installationLog.append(createDir(gamesFolders, gamesPath));
 
         List<String> srcFolders = new ArrayList<>();
         srcFolders.add("main");
         srcFolders.add("test");
         String srcPath = "E:\\Java\\Netology\\Projects\\JavaCore\\1.3_Input-Output\\Games\\src\\";
-        for (String title : srcFolders) {
-            StringBuilder temp = createDir(title, srcPath);
-            installationLog.append(temp);
-        }
+        installationLog.append(createDir(srcFolders, srcPath));
 
         List<String> resFolders = new ArrayList<>();
         resFolders.add("drawables");
         resFolders.add("vectors");
         resFolders.add("icons");
         String resPath = "E:\\Java\\Netology\\Projects\\JavaCore\\1.3_Input-Output\\Games\\res\\";
-        for (String title : resFolders) {
-            StringBuilder temp = createDir(title, resPath);
-            installationLog.append(temp);
-        }
+        installationLog.append(createDir(resFolders, resPath));
 
         List<String> mainFiles = new ArrayList<>();
         mainFiles.add("Main.java");
         mainFiles.add("Utils.java");
         String mainPath = "E:\\Java\\Netology\\Projects\\JavaCore\\1.3_Input-Output\\Games\\src\\main";
-        for (String title : mainFiles) {
-            StringBuilder temp = createFile(title, mainPath);
-            installationLog.append(temp);
-        }
+        installationLog.append(createFile(mainFiles, mainPath));
 
         List<String> tempFiles = new ArrayList<>();
         tempFiles.add("temp.txt");
         String tempPath = "E:\\Java\\Netology\\Projects\\JavaCore\\1.3_Input-Output\\Games\\temp";
-        for (String title : tempFiles) {
-            StringBuilder temp = createFile(title, tempPath);
-            installationLog.append(temp);
-        }
+        installationLog.append(createFile(tempFiles, tempPath));
 
         String outPath = "E:\\Java\\Netology\\Projects\\JavaCore\\1.3_Input-Output\\Games\\temp\\temp.txt";
         writeLogs(installationLog, outPath);
     }// main
 
-    public static StringBuilder createDir(String title, String path) {
-        File dir = new File(path + title);
-        if (dir.mkdir()) {
-            System.out.println("Папка " + title + " успешно создана");
-            return new StringBuilder("Папка " + title + " успешно создана\n");
-        } else {
-            System.out.println("Папка " + title + " не была создана");
-            return new StringBuilder("Папка " + title + " не была создана\n");
-        }
-    }
-
-    public static StringBuilder createFile(String title, String path) throws IOException {
-        File file = new File(path, title);
-        try {
-            if (file.createNewFile()) {
-                System.out.println("Файл " + title + " успешно создан");
-                return new StringBuilder("Файл " + title + " успешно создан\n");
+    public static StringBuilder createDir(List<String> titles, String path) {
+        StringBuilder sb = new StringBuilder();
+        for (String title : titles) {
+            File dir = new File(path + title);
+            if (dir.mkdir()) {
+                System.out.println("Папка " + title + " успешно создана.");
+                sb.append("Папка ").append(title).append(" успешно создана.\n");
             } else {
-                System.out.println("Файл " + title + " не был создан");
-                return new StringBuilder("Файл " + title + " не был создан\n");
+                System.out.println("Папка " + title + " не была создана.");
+                sb.append("Папка ").append(title).append(" не была создана.\n");
             }
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
         }
-        return null;
-    }
+        return sb;
+    }// createDir
+
+    public static StringBuilder createFile(List<String> titles, String path) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        for (String title : titles) {
+            File file = new File(path, title);
+            try {
+                if (file.createNewFile()) {
+                    System.out.println("Файл " + title + " успешно создан.");
+                    sb.append("Файл ").append(title).append(" успешно создан.\n");
+                } else {
+                    System.out.println("Файл " + title + " не был создан.");
+                    sb.append("Файл ").append(title).append(" не был создан.\n");
+                }
+            } catch (Exception exception) {
+                System.out.println(exception.getMessage());
+            }
+        }
+        return sb;
+    }// createFile
 
     public static void writeLogs(StringBuilder logs, String file) {
         try (FileWriter writer = new FileWriter(file, false)) {
